@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardio AI - Investor Data Room</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6; color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 1200px; margin: 0 auto; background: white;
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #002060 0%, #003d8f 100%);
+            color: white; padding: 60px 40px; text-align: center;
+        }
+        .header h1 { font-size: 3em; margin-bottom: 10px; font-weight: 700; letter-spacing: -1px; }
+        .header .tagline { font-size: 1.3em; opacity: 0.9; margin-bottom: 20px; }
+        .header .stats { display: flex; justify-content: center; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2.5em; font-weight: 700; color: #4ade80; }
+        .stat-label { font-size: 0.9em; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+        .content { padding: 40px; }
+        .intro { background: #f8fafc; padding: 30px; border-radius: 10px; margin-bottom: 40px; border-left: 4px solid #002060; }
+        .intro h2 { color: #002060; margin-bottom: 15px; font-size: 1.8em; }
+        .intro p { color: #64748b; font-size: 1.1em; line-height: 1.8; }
+        .section { margin-bottom: 50px; }
+        .section-title {
+            color: #002060; font-size: 1.8em; margin-bottom: 25px;
+            padding-bottom: 15px; border-bottom: 3px solid #002060;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .documents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .document-card {
+            background: white; border: 2px solid #e2e8f0; border-radius: 12px;
+            padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .document-card:hover {
+            transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 32, 96, 0.15);
+            border-color: #002060;
+        }
+        .document-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, #002060, #003d8f);
+        }
+        .doc-icon { font-size: 2.5em; margin-bottom: 15px; display: inline-block; }
+        .doc-title { font-size: 1.3em; font-weight: 600; color: #002060; margin-bottom: 10px; }
+        .doc-description { color: #64748b; font-size: 0.95em; margin-bottom: 20px; line-height: 1.6; }
+        .doc-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;
+        }
+        .doc-type {
+            font-size: 0.85em; color: #002060; background: #e0e7ff;
+            padding: 5px 12px; border-radius: 20px; font-weight: 600;
+        }
+        .download-btn, .contact-btn {
+            background: linear-gradient(135deg, #002060, #003d8f); color: white;
+            padding: 10px 20px; border-radius: 8px; text-decoration: none;
+            font-weight: 600; transition: all 0.3s ease; display: inline-block;
+        }
+        .download-btn:hover, .contact-btn:hover {
+            transform: scale(1.05); box-shadow: 0 5px 15px rgba(0, 32, 96, 0.3);
+        }
+        .highlights {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 30px; border-radius: 12px; margin-bottom: 40px;
+        }
+        .highlights h3 { color: #002060; font-size: 1.5em; margin-bottom: 20px; }
+        .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .highlight-item { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+        .highlight-number { font-size: 2em; font-weight: 700; color: #006100; margin-bottom: 5px; }
+        .highlight-label { color: #64748b; font-size: 0.9em; }
+        .footer { background: #f8fafc; padding: 40px; text-align: center; border-top: 1px solid #e2e8f0; }
+        .footer h3 { color: #002060; margin-bottom: 15px; }
+        .footer p { color: #64748b; margin-bottom: 10px; }
+        .footer a { color: #002060; text-decoration: none; font-weight: 600; }
+        .footer a:hover { text-decoration: underline; }
+        .confidential {
+            background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;
+            margin-bottom: 30px; text-align: center; font-weight: 600; border: 2px solid #fecaca;
+        }
+        .featured-doc { border: 3px solid #002060; background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%); }
+        .featured-badge {
+            position: absolute; top: 20px; right: 20px;
+            background: linear-gradient(135deg, #4ade80, #22c55e); color: white;
+            padding: 5px 15px; border-radius: 20px; font-size: 0.75em;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .header .stats { flex-direction: column; gap: 20px; }
+            .documents-grid { grid-template-columns: 1fr; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🫀 CARDIO AI</h1>
+            <div class="tagline">Investor Data Room - Confidential Materials</div>
+            <div class="stats">
+                <div class="stat-item"><div class="stat-number">$10.26B</div><div class="stat-label">5-Year Revenue</div></div>
+                <div class="stat-item"><div class="stat-number">$6.16B</div><div class="stat-label">5-Year EBITDA</div></div>
+                <div class="stat-item"><div class="stat-number">60%</div><div class="stat-label">EBITDA Margin</div></div>
+                <div class="stat-item"><div class="stat-number">$187B</div><div class="stat-label">TAM</div></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="confidential">⚠️ CONFIDENTIAL - For Authorized Investors Only</div>
+
+            <div class="intro">
+                <h2>Welcome to the Cardio AI Data Room</h2>
+                <p>Comprehensive investor documentation for Cardio AI, the first unified multi-agent AI platform revolutionizing cardiovascular care. Our platform integrates 3 specialized subsystems coordinated by a Master Orchestrator: CardioAI Platform (7 AI agents), IoMT Platform (real-time monitoring), and PACS/DICOM Platform (medical imaging). With world-class 60% EBITDA margins and profitable from Year 1, we're positioned to capture 20% of the $187B AI healthcare market.</p>
+            </div>
+
+            <div class="highlights">
+                <h3>📊 Investment Highlights</h3>
+                <div class="highlights-grid">
+                    <div class="highlight-item"><div class="highlight-number">Year 1</div><div class="highlight-label">Profitable from Day 1</div></div>
+                    <div class="highlight-item"><div class="highlight-number">1,231x</div><div class="highlight-label">Return on $5M Seed</div></div>
+                    <div class="highlight-item"><div class="highlight-number">2.5M</div><div class="highlight-label">Members by Year 5</div></div>
+                    <div class="highlight-item"><div class="highlight-number">50x</div><div class="highlight-label">Member Growth</div></div>
+                    <div class="highlight-item"><div class="highlight-number">7</div><div class="highlight-label">Specialized AI Agents</div></div>
+                    <div class="highlight-item"><div class="highlight-number">5</div><div class="highlight-label">Risk Calculators</div></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">📋 Core Documents</h2>
+                <p style="background: #fffbeb; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #f59e0b;">
+                    <strong>📥 Document Access:</strong> All documents are available in the data room package. Please contact <a href="/cdn-cgi/l/email-protection#88e1e6feedfbfce7fafbc8ebe9faece1e7e9e1e4e1feeda6ebe7e5" style="color: #002060; font-weight: 600;"><span class="__cf_email__" data-cfemail="88e1e6feedfbfce7fafbc8ebe9faece1e7e9e1e4e1feeda6ebe7e5">[email&#160;protected]</span></a> to request access to specific files.
+                </p>
+                <div class="documents-grid">
+                    <div class="document-card featured-doc">
+                        <span class="featured-badge">★ START HERE</span>
+                        <div class="doc-icon">📊</div>
+                        <div class="doc-title">00 - Data Room Index</div>
+                        <div class="doc-description"><strong>Master Navigation Document</strong> - Complete index cataloging 50+ documents across 8 categories including Company Overview, Financials, Technology, Legal, Team, Clinical, Regulatory, and Supporting Materials. Features status tracking (Complete, In Progress, Pending) and professional formatting. Essential starting point for due diligence.</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">XLSX • 8KB</span>
+                            <a href="https://data-room-index.vercel.app/" target="_blank" class="download-btn">View Index</a>
+                        </div>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="doc-icon">📄</div>
+                        <div class="doc-title">01 - Executive Summary</div>
+                        <div class="doc-description">Comprehensive company overview including $10.26B revenue projections, $187B TAM, platform architecture, competitive advantages, and leadership team. Updated with actual financial model from 40% OpEx projections.</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">DOCX • 11KB</span>
+                            <a href="/cdn-cgi/l/email-protection#4920273f2c3a3d263b3a092a283b2d2026282025203f2c672a2624763a3c2b232c2a3d741b2c383c2c3a3d73690c312c2a3c3d203f2c691a3c2424283b30" class="contact-btn">Request File</a>
+                        </div>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="doc-icon">🔬</div>
+                        <div class="doc-title">02 - Product Overview & Technology</div>
+                        <div class="doc-description">Complete technical documentation of Unified Master Orchestrator with 3 subsystems: 7 AI agents (ECG, Echo, Lab, Risk, Diagnostic, Treatment, Prognosis), IoMT Platform (4 protocols: MQTT, HTTP, CoAP, WebSocket), PACS/DICOM (6 agents with 4 parallel segmentation), and 5 risk calculators with ≥0.75 C-statistics.</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">DOCX • 15KB</span>
+                            <a href="/cdn-cgi/l/email-protection#aac3c4dccfd9dec5d8d9eac9cbd8cec3c5cbc3c6c3dccf84c9c5c795d9dfc8c0cfc9de97f8cfdbdfcfd9de908afad8c5cedfc9de8ae5dccfd8dcc3cfdd" class="contact-btn">Request File</a>
+                        </div>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="doc-icon">💰</div>
+                        <div class="doc-title">03 - Financial Model (Optimized)</div>
+                        <div class="doc-description">5-year projections with 40% OpEx and 60% EBITDA margins. Two sheets: (1) Revenue Projections with year-by-year members, blended PMPM, revenue, OpEx, EBITDA, headcount, and revenue/employee; (2) Pricing Tiers detailing four-tier model ($30/$50/$100/$40 PMPM). All formulas validated, zero errors.</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">XLSX • 11KB</span>
+                            <a href="/cdn-cgi/l/email-protection#046d6a726177706b767744676576606d6b656d686d72612a676b693b7771666e61677039566175716177703e24426d6a656a676d656824496b606168" class="contact-btn">Request File</a>
+                        </div>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="doc-icon">📈</div>
+                        <div class="doc-title">04 - Market Analysis</div>
+                        <div class="doc-description">$187B TAM (Global AI in Healthcare), $52.4B SAM (28% for Cardiovascular AI), $10.3B SOM (20% target over 5 years). Detailed competitive landscape with valuations (Aidoc $250M, HeartFlow $2.4B, Tempus $8.1B), market drivers, customer segments (Primary Care 35%, Cardiology 30%, Hospitals 30%, Women's Health 5%), and 3-phase expansion strategy.</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">DOCX • 13KB</span>
+                            <a href="/cdn-cgi/l/email-protection#0f6661796a7c7b607d7c4f6c6e7d6b66606e666366796a216c6062307c7a6d656a6c7b325d6a7e7a6a7c7b352f426e7d646a7b2f4e616e63767c667c" class="contact-btn">Request File</a>
+                        </div>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="doc-icon">💼</div>
+                        <div class="doc-title">05 - Investment Memorandum</div>
+                        <div class="doc-description">Complete investment thesis with 10 investment highlights, year-by-year financial breakdown (Y1: 50K members, $51M revenue, $30.6M EBITDA → Y5: 2.5M members, $4.75B revenue, $2.85B EBITDA), use of funds ($5M seed: 35% product, 20% clinical, 25% sales, 10% infrastructure, 10% working capital), risk factors with mitigation, exit strategies ($10-15B IPO potential), and seed investor returns (500-1,000x with dilution).</div>
+                        <div class="doc-meta">
+                            <span class="doc-type">DOCX • 12KB</span>
+                            <a href="/cdn-cgi/l/email-protection#0861667e6d7b7c677a7b486b697a6c6167696164617e6d266b6765377b7d6a626d6b7c355a6d797d6d7b7c322841667e6d7b7c656d667c28456d6567" class="contact-btn">Request File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🎯 Key Differentiators</h2>
+                <div class="highlights">
+                    <div class="highlights-grid">
+                        <div class="highlight-item"><div class="highlight-number">3</div><div class="highlight-label">Integrated Subsystems</div></div>
+                        <div class="highlight-item"><div class="highlight-number">&lt;10s</div><div class="highlight-label">ECG Analysis Time</div></div>
+                        <div class="highlight-item"><div class="highlight-number">&lt;1s</div><div class="highlight-label">IoMT Alert Latency</div></div>
+                        <div class="highlight-item"><div class="highlight-number">&lt;5min</div><div class="highlight-label">Complete Workflow</div></div>
+                        <div class="highlight-item"><div class="highlight-number">99.9%</div><div class="highlight-label">System Uptime</div></div>
+                        <div class="highlight-item"><div class="highlight-number">10,000+</div><div class="highlight-label">Concurrent Patients</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">🏗️ Platform Architecture</h2>
+                <div class="intro">
+                    <h3 style="color: #002060; margin-bottom: 15px;">Master Orchestrator</h3>
+                    <p style="margin-bottom: 20px;">Central coordination engine with task routing, load balancing, state management, event broadcasting, error recovery, and metrics collection.</p>
+                    <h3 style="color: #002060; margin-bottom: 15px;">CardioAI Platform - 7 AI Agents</h3>
+                    <p style="margin-bottom: 10px;"><strong>ECG Agent:</strong> STEMI/NSTEMI detection (&lt;10s), arrhythmia classification, ICD-10 coding<br><strong>Echo Agent:</strong> HFrEF/HFpEF assessment, valve function, EF calculation<br><strong>Lab Agent:</strong> Troponin & BNP analysis, lipid profiles, biomarker trends<br><strong>Risk Agent:</strong> TIMI & GRACE scoring, mortality risk, 10-year CVD prediction<br><strong>Diagnostic Agent:</strong> Evidence synthesis, differential diagnosis, decision support<br><strong>Treatment Agent:</strong> Protocol generation, drug recommendations, dosage optimization<br><strong>Prognosis Agent:</strong> Outcome prediction, survival analysis, follow-up planning</p>
+                    <h3 style="color: #002060; margin: 20px 0 15px 0;">IoMT Platform</h3>
+                    <p style="margin-bottom: 10px;">4 protocols (MQTT, HTTP, CoAP, WebSocket) • 24/7 real-time monitoring • Sub-second alert latency (&lt;1s) • Device health monitoring • 10,000+ concurrent patients</p>
+                    <h3 style="color: #002060; margin: 20px 0 15px 0;">PACS/DICOM Platform - 6 Agents</h3>
+                    <p>DICOM ingestion (C-STORE, C-FIND) • Preprocessing (normalization, enhancement) • 4 parallel segmentation agents (chambers, vessels, myocardium) • Quantification (EDV, ESV, EF, strain) • Specialized analysis (T1/T2 mapping, calcium scoring, perfusion) • Automated reporting (DICOM SR, PDF, HL7)</p>
+                    
+                    <h3 style="color: #002060; margin: 20px 0 15px 0;">5 AI-Powered CVD Risk Calculators</h3>
+                    <p style="margin-bottom: 10px;">
+                        <strong>1. AMI Calculator:</strong> C-statistic ≥0.75 • Primary/secondary prevention • 1/5/10-year risk predictions<br>
+                        <strong>2. Stroke Calculator:</strong> C-statistic ≥0.75 • Ischemic/hemorrhagic/TIA models • Event prediction<br>
+                        <strong>3. Heart Failure Calculator:</strong> C-statistic ≥0.75 • HFrEF/HFpEF models • Hospitalization prediction<br>
+                        <strong>4. SCD Calculator:</strong> C-statistic ≥0.78 • ICD placement decisions • Primary prevention guidance<br>
+                        <strong>5. AFib Calculator:</strong> C-statistic ≥0.80 (highest accuracy) • Screening • Anticoagulation guidance
+                    </p>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                        All calculators feature: 95% confidence intervals • 3 time frames (1/5/10 years) • 4 risk categories • 100% AHA Guidelines aligned
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">📊 5-Year Financial Summary</h2>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #002060, #003d8f); color: white;">
+                                <th style="padding: 15px; text-align: left;">Metric</th>
+                                <th style="padding: 15px; text-align: center;">Year 1 (2027)</th>
+                                <th style="padding: 15px; text-align: center;">Year 2 (2028)</th>
+                                <th style="padding: 15px; text-align: center;">Year 3 (2029)</th>
+                                <th style="padding: 15px; text-align: center;">Year 4 (2030)</th>
+                                <th style="padding: 15px; text-align: center;">Year 5 (2031)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px; font-weight: 600;">Members</td>
+                                <td style="padding: 12px; text-align: center;">50,000</td>
+                                <td style="padding: 12px; text-align: center;">250,000</td>
+                                <td style="padding: 12px; text-align: center;">1,000,000</td>
+                                <td style="padding: 12px; text-align: center;">1,750,000</td>
+                                <td style="padding: 12px; text-align: center;">2,500,000</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px; font-weight: 600;">Revenue</td>
+                                <td style="padding: 12px; text-align: center;">$51M</td>
+                                <td style="padding: 12px; text-align: center;">$367M</td>
+                                <td style="padding: 12px; text-align: center;">$1.87B</td>
+                                <td style="padding: 12px; text-align: center;">$3.22B</td>
+                                <td style="padding: 12px; text-align: center;">$4.75B</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e2e8f0; background: #f0f9ff;">
+                                <td style="padding: 12px; font-weight: 600;">EBITDA</td>
+                                <td style="padding: 12px; text-align: center; color: #006100; font-weight: 700;">$30.6M</td>
+                                <td style="padding: 12px; text-align: center; color: #006100; font-weight: 700;">$220M</td>
+                                <td style="padding: 12px; text-align: center; color: #006100; font-weight: 700;">$1.12B</td>
+                                <td style="padding: 12px; text-align: center; color: #006100; font-weight: 700;">$1.93B</td>
+                                <td style="padding: 12px; text-align: center; color: #006100; font-weight: 700;">$2.85B</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px; font-weight: 600;">EBITDA Margin</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700;">60%</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700;">60%</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700;">60%</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700;">60%</td>
+                                <td style="padding: 12px; text-align: center; font-weight: 700;">60%</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px; font-weight: 600;">Blended PMPM</td>
+                                <td style="padding: 12px; text-align: center;">$85</td>
+                                <td style="padding: 12px; text-align: center;">$122</td>
+                                <td style="padding: 12px; text-align: center;">$156</td>
+                                <td style="padding: 12px; text-align: center;">$153</td>
+                                <td style="padding: 12px; text-align: center;">$158</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; font-weight: 600;">Headcount</td>
+                                <td style="padding: 12px; text-align: center;">75</td>
+                                <td style="padding: 12px; text-align: center;">85</td>
+                                <td style="padding: 12px; text-align: center;">220</td>
+                                <td style="padding: 12px; text-align: center;">380</td>
+                                <td style="padding: 12px; text-align: center;">520</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>Contact Information</h3>
+            <p><strong>Investment Inquiries:</strong> <a href="mailto:investors@cardioailive.com">investors@cardioailive.com</a></p>
+            <p><strong>Sampson Kontomah</strong> - Founder & CEO</p>
+            <p><strong>Evelyn Ndirangu</strong> - CFO & Co-Founder</p>
+            <p><strong>Andrew Young</strong> - Director of Investment & Government Relations</p>
+            <p><strong>Todd Wiltshire</strong> - Director of Finance & Investment</p>
+            <p style="margin-top: 20px;"><strong>Website:</strong> <a href="https://cardioailive.com" target="_blank">cardioailive.com</a></p>
+            <p><strong>Technology Explorer:</strong> <a href="https://cardioai-tech-explorer.vercel.app" target="_blank">cardioai-tech-explorer.vercel.app</a></p>
+            <p><strong>Request Demo:</strong> <a href="https://product-demo-request-form.vercel.app" target="_blank">product-demo-request-form.vercel.app</a></p>
+            <p style="margin-top: 30px; font-size: 0.85em; color: #94a3b8;">© 2025 Cardio AI. All Rights Reserved. Confidential and Proprietary Information.</p>
+        </div>
+    </div>
+</body>
+</html>
